@@ -2,21 +2,18 @@
 using Android.App;
 using Android.OS;
 using Android.Support.Design.Widget;
-using Android.Support.V7.App;
 using Android.Views;
-using Microsoft.Intune.Mam.Client.App;
-using Microsoft.Intune.Mam.Client.Notification;
-using Microsoft.Intune.Mam.Policy.Notification;
+using Microsoft.Intune.Mam.Client.Support.V7.App;
 
 namespace IntuneRepro
 {
-	[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    public class MainActivity : MAMAppCompatActivity
     {
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        public override void OnMAMCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnMAMCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -45,22 +42,10 @@ namespace IntuneRepro
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-			var receiver = new MAMNotificationReceiver ();
-			MAMComponents.Get<IMAMNotificationReceiverRegistry> ().RegisterReceiver (receiver, MAMNotificationType.MamEnrollmentResult);
-
-			View view = (View) sender;
+            View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
         }
-
-		class MAMNotificationReceiver : Java.Lang.Object, IMAMNotificationReceiver
-		{
-			public bool OnReceive (IMAMNotification notification)
-			{
-				Android.Util.Log.Debug ("IntuneRepro", $"Notification: {notification.Type}");
-				return true;
-			}
-		}
-	}
+    }
 }
 
