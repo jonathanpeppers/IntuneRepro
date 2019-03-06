@@ -10,7 +10,7 @@ using Microsoft.Intune.Mam.Policy.Notification;
 
 namespace IntuneRepro
 {
-    [Application]
+    [Application(Debuggable = false)]
     class App : MAMApplication
     {
         public App(IntPtr handle, JniHandleOwnership transfer)
